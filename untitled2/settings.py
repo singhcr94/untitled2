@@ -27,11 +27,14 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['34.220.147.41','*']
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
 INSTALLED_APPS = [ 'App',
                    'rest_framework',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +43,10 @@ INSTALLED_APPS = [ 'App',
     'django.contrib.staticfiles',
 
 ]
-
+#AUTH_USER_MODEL='App.customuser'
+#import djcelery
+#djcelery.setup_loader()
+#BROKER_URL = 'django://'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,7 +85,7 @@ WSGI_APPLICATION = 'untitled2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.2sqlite3'),
     }
 }
 

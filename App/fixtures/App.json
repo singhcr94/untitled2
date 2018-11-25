@@ -1,0 +1,35 @@
+[
+{
+    "model": "App.person",
+    "pk": 1,
+    "fields": {
+        "firstname": "John",
+        "lastname": "singh",
+        "dob": "2012-03-01",
+        "phone": 233456,
+        "address": "3ew"
+    }
+},
+{
+    "model": "App.person",
+    "pk": 3,
+    "fields": {
+        "firstname": "rehan",
+        "lastname": "lanka",
+        "dob": "2012-03-01",
+        "phone": 32232,
+        "address": "fdsfsdfsd"
+    }
+},
+{
+    "model": "App.person",
+    "pk": 6,
+    "fields": {
+        "firstname": "Ravneet",
+        "lastname": "singh",
+        "dob": "2012-03-01",
+        "phone": 233456,
+        "address": "3ew"
+    }
+}
+]

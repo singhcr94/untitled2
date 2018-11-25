@@ -1,17 +1,50 @@
-
+from tkinter import Tk
 from django.shortcuts import render,redirect
 from App import models
-from rest_framework import viewsets
+from rest_framework.renderers import JSONRenderer
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
 from .forms import create
 from .models import person
 from .serializers import personserializers
 from django.core import serializers
 from django.http import HttpResponse,JsonResponse
+from celery.decorators import task
+root= Tk()
 
-class personview(viewsets.ModelViewSet):
-    queryset = person.objects.all()
-    serializer_class = personserializers
+@csrf_exempt
+def personview(request):
+    if request.method=='GET':
 
+        queryset = person.objects.all()
+        serializer = personserializers(queryset,many=True)
+        return JsonResponse(serializer.data,safe=False)
+    elif request.method=='POST':
+        data=JSONParser().parse(request)
+        serializer=personserializers(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data,status=201)
+        return JsonResponse(serializer.errors,status=400)
+@csrf_exempt
+def detail(request,pk):
+    try:
+        snippet=person.objects.get(pk=pk)
+    except person.DoesNotExist:
+        return HttpResponse(status=404)
+    if request.method=="GET":
+        serializer=personserializers(snippet)
+        return JsonResponse(serializer.data)
+    elif request.method=="PUT":
+        data=JSONParser().parse(snippet)
+        serializer=personserializers(snippet,data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+    elif request.method=="DELETE":
+        snippet.delete()
+        return HttpResponse(status=404)
 def view(request):
     form= create(request.POST)
     if request.method=="POST":
